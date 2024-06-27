@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+{% endblock %}
+
+{% block title %}Hello {% endblock %}
+
+{% block body %}
+   
+<div class="container">
+ <div class="row row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-xs-1">
+ 
+        <div class="card" style="border-radius: 0%; width: 650px;">
+            <div class="thumbnail">
+                <img class="left" src="{{ asset('images/products/' ~ meal.image) }}"/>
+            </div>
+            <div class="right">
+                <h1>{{ meal.mealName }}</h1>
+                <div class="author">
+                 <img class="img" src="{{ asset('pictures/' ~ meal.fk_user.picture) }}"  alt="User Avatar">
+                <p>{{ meal.fk_user}}</p>
+                </div>
+                <div class="separator"></div>
+                <p><b>Calories:</b> {{ meal.calories}}</p>
+                <p><b>Type:</b> {{ meal.mealType }}</p>
+            </div>
+            <div class="down mb-3">
+                    <p><b>Ingredients:</b> <br> {{ meal.ingredients }}</p> 
+                     <p><b>Preparation time:</b> {{ meal.preparationTime }}</p> 
+                     <p><b>Recipe:</b> <br> {{ meal.recipe }}</p> 
+                     <p><b>Fat/Carbs/Proteins:</b> <br> {{ meal.nutriensTable }}</p> 
+                     <p><a target="_blanc" href="{{ meal.link }}">See the recipe on orginal page</p>
+                    {% if meal.fk_user == app.user %}
+                    <a class="btn btn-primary" href="{{ path('app_meals_edit', {'id': meal.id}) }}">edit</a>
+                    {% endif %}
+                    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_USER") %}
+                    <a class="btn btn-primary" href="{{ path('app_planner_new', {'id': meal.id}) }}">Add to my plan</a>
+                    {% endif %}
+                    {% if is_granted("ROLE_ADMIN") %}
+                    {# <a class="btn btn-primary" href="{{ path('app_meals_index') }}">Back to list</a> #}
+                    {% elseif is_granted("ROLE_USER") %}
+                    {# <a class="btn btn-primary" href="{{ path('app_user_access') }}">Back to list</a> #}
+
+                    {% else %}
+                    <a class="btn btn-primary" href="{{ path('app_static') }}">Back to list</a>
+                    {% endif %}
+                    {% if is_granted("ROLE_ADMIN") %}
+                    {{ include('meals/_delete_form.html.twig') }}
+                    {% endif %}
+            </div>
+  {# <h5>12</h5>
+  <h6>JANUARY</h6>
+  <ul>
+    <li><i class="fa fa-eye fa-2x"></i></li>
+    <li><i class="fa fa-heart-o fa-2x"></i></li>
+    <li><i class="fa fa-envelope-o fa-2x"></i></li>
+    <li><i class="fa fa-share-alt fa-2x"></i></li>
+  </ul>
+  <div class="fab"><i class="fa fa-arrow-down fa-3x"></i></div> #}
+   </div>
+
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+{% endblock %}
+
+{% block title %}Meals{% endblock %}
+
+{% block body %}
+      <h1 class="text-center mt-2"><i>Yummi Recipes</i></h1>
+<div class="d-flex justify-content-center pt-2">
+<a class="btn btn-primary mx-3" href="{{ path('app_meals_index') }}">All Meals</a>
+<a class="btn btn-primary mx-3" href="{{ path('app_meals_filtered', {'status': 'approved'}) }}">Approved Meals</a>
+<a class="btn btn-primary mx-3" href="{{ path('app_meals_filtered', {'status': 'not_approved'}) }}">Not Approved Meals</a>
+</div>
+<hr class="line">
+  <div class="d-flex justify-content-center pt-2">
+       <a class="btn btn-dark mx-3" href="{{ path('app_user_access') }}">All recipes</a>
+    <a class="btn btn-dark mx-3" href="{{ path('app_meals_filter_by_meal_type', {'mealType': 'vegan'}) }}">Vegan</a>
+    <a class="btn btn-dark mx-3" href="{{ path('app_meals_filter_by_meal_type', {'mealType': 'vegeterian'}) }}">Vegeterian</a>
+    <a class="btn btn-dark mx-3" href="{{ path('app_meals_filter_by_meal_type', {'mealType': 'meat'}) }}">Meat</a>
+    <a class="btn btn-dark mx-3" href="{{ path('app_meals_filter_by_meal_type', {'mealType': 'fish'}) }}">Fish</a>
+</div>
+<div class="container fadeout" id="flash">
+{% for flashMessage in app.session.flashbag.get('success') %}
+
+    {{ flashMessage }}
+
+{% endfor %}
+</div>
+<div class="container">
+ <div class="row row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-xs-1">
+ {% for meal in meals %}
+        <div class="card" style="border-radius: 0%; width: 650px;">
+            <div class="thumbnail">
+              <img class="left"  style="border-radius-50" src="{{ asset('images/products/' ~ meal.image) }}"/>
+            </div>
+            <div class="right">
+                <h1>{{ meal.mealName }}</h1>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <div class="author">
+                <img class="img" src="{{ asset('pictures/' ~ meal.fk_user.picture) }}"  alt="User Avatar">
+                <p>{{ meal.fk_user}}</p>
+                </div>
+                <div class="separator"></div>
+                <p><b>Calories:</b> {{ meal.calories}}</p>
+                <p><b>Type:</b> {{ meal.mealType }}</p>
+            </div>
+            <div class="down mb-3">
+                    <p><b>Ingredients:</b>{{ meal.ingredients }}</p> 
+                    <a class="btn btn-primary" href="{{ path('app_meals_show', {'id': meal.id}) }}">Show more</a>
+                    <a class="btn btn-primary" href="{{ path('app_meals_edit', {'id': meal.id}) }}">Edit</a>
+                    <a class="btn btn-primary" href="{{ path('app_planner_new', {'id': meal.id}) }}">Add to my plan</a>
+                    {{ include('meals/_delete_form.html.twig') }}
+                         <td>
+                <form method="post" action="{{ path('app_meals_index_some', {'id': meal.id}) }}">
+                        <input type="hidden" name="{{ csrf_token('approve' ~ meal.id) }}" value="{{ csrf_token('approve' ~ meal.id) }}" />
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="switch{{ meal.id }}" name="approved" onchange="this.form.submit()"
+                                   {% if meal.approved %}checked{% endif %}>
+                            <label class="form-check-label" for="switch{{ meal.id }}">
+                                {{ meal.approved == false ? 'Approve' : 'Approved' }}
+                            </label>
+                        </div>
+                    </form>
+            </td>
+            </div>
+  {# <h5>12</h5>
+  <h6>JANUARY</h6>
+  <ul>
+    <li><i class="fa fa-eye fa-2x"></i></li>
+    <li><i class="fa fa-heart-o fa-2x"></i></li>
+    <li><i class="fa fa-envelope-o fa-2x"></i></li>
+    <li><i class="fa fa-share-alt fa-2x"></i></li>
+  </ul>
+  <div class="fab"><i class="fa fa-arrow-down fa-3x"></i></div> #}
+   </div>
+  {% else %}
+            <tr>
+                <td colspan="11">No records found</td>
+            </tr>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %} 

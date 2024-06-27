@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Meals{% endblock %}
+
+{% block body %}
+<div class="container container mb-5 mt-5 border border-3 shadow-lg p-5">
+    <h1 class="text-start mt-2">Edit your meal</h1>
+
+    {{ include('meals/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {% if is_granted("ROLE_ADMIN") %}
+    <a class="btn btn-primary" href="{{ path('app_meals_index') }}">Back to list</a>
+    {% elseif is_granted("ROLE_USER") %}
+    <a class="btn btn-primary" href="{{ path('app_user_access') }}">Back to list</a>
+    {% endif %}
+    
+    {{ include('meals/_delete_form.html.twig') }}
+</div>
+{% endblock %}

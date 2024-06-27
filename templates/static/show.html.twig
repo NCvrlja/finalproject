@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+{% endblock %}
+
+{% block title %}Hello {% endblock %}
+
+{% block body %}
+      <h1 class="text-center">All the recipes</h1>
+<div class="container">
+ <div class="row row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-xs-1">
+ 
+        <div class="card" style="border-radius: 0%; width: 650px;">
+            <div class="thumbnail">
+                <img class="left" src="{{ asset('images/products/' ~ meal.image) }}"/>
+            </div>
+            <div class="right">
+                <h1>{{ meal.mealName }}</h1>
+                <div class="author">
+                <p>{{ meal.fk_user}}</p>
+                </div>
+                <div class="separator"></div>
+                <p><b>Calories:</b>{{ meal.calories}}</p>
+                <p><b>Type:</b>{{ meal.mealType }}</p>
+            </div>
+            <div class="down mb-3">
+                    <p><b>Ingredients:</b>{{ meal.ingredients }}</p> 
+                     <p><b>Preparation time:</b>{{ meal.preparationTime }}</p> 
+                     <p><b>Recipe:</b>{{ meal.recipe }}</p> 
+                     <p><b>Fat/Carbs/Proteins:</b>{{ meal.nutriensTable }}</p> 
+                     <p><a target="_blanc" href="{{ meal.link }}">See the recipe on orginal page</p>
+                    <a class="btn btn-primary" href="{{ path('app_static') }}">Back to list</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

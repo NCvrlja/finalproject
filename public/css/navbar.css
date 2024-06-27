@@ -1,0 +1,9 @@
+.avatar {
+    width: 26px;
+    height: 26px;
+    margin-left: 5px;
+}
+
+.hovering:hover {
+    color: red;
+}

@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planner{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5 mb-4">
+        <h1>My Planner</h1>
+
+    <form  action="" method="POST">
+        <div class="d-flex  justify-content-between" style="width: 40%;">
+            <div style="width: 40%;">
+                <input class="form-control" type="date" name="from">
+            </div>
+            <div style="width: 40%;">
+                <input class="form-control" type="date" name="to">  
+            </div>
+            <div style="width: auto;">
+                <button class="btn btn-primary" type="submit">submit</button>
+            </div>
+        </div>
+
+       
+    </form>
+
+    </div>
+    <div class="container mb-5  " >
+        
+    <table class="table shadow-lg border border-5">
+        {# <thead>
+            <tr>
+                <th>Intended Time</th>
+                <th>Meal</th>
+                <th>Type</th>
+                <th>Preperation Time</th>
+                <th> </th>
+            </tr>
+        </thead> #}
+        <tbody>
+            {% set lastDate = null %}
+            
+            {% for planner in planners %}
+
+            {% if lastDate == planner.date|date("Y-m-d") %}
+            {# <tr class="table-secondary"> #}
+                
+                <td>
+                {# {{ planner.timeToEat }} #}
+                {% if planner.timeToEat == "1" %}
+                    Breakfast
+                {% elseif planner.timeToEat == "2" %}
+                    Lunch
+                {% elseif planner.timeToEat == "3" %}
+                    Dinner
+                {% else %}
+                    Wrong valuue in database. Must be 1,2 or 3.
+                {% endif %}
+                
+                </td>            
+                {% for meal in meals %}
+                    {% if meal.id == planner.fkMeal.id %}
+                        <td>{{meal.mealName}}</td>
+                        <td>{{ meal.mealtype }}</td>
+                        <td>{{meal.preparationTime}}</td>
+                    
+                    {% endif %}
+                    
+                {% endfor %}
+                <td>
+                    <a class="btn btn-secondary" href="{{ path('app_meals_show', {'id': planner.fkMeal.id}) }}">show</a>
+                    <a class="btn btn-secondary" href="{{ path('app_planner_edit', {'id': planner.id}) }}">edit</a>
+                </td>
+            </tr>
+            
+            {% else %}
+            {# <tr>
+                <td class="table-custom-color" colspan="100"></td>
+            </tr> #}
+            <tr>
+                <td class="table text-light bg-primary fs-4" colspan="100">{{ planner.date|date("l") ~ " " ~ planner.date|date("Y-m-d") }}</td>
+            </tr>
+            {# <tr class="table-secondary">  #}
+                <td>
+                {# {{ planner.timeToEat }} #}
+                {% if planner.timeToEat == "1" %}
+                    Breakfast
+                {% elseif planner.timeToEat == "2" %}
+                    Lunch
+                {% elseif planner.timeToEat == "3" %}
+                    Dinner
+                {% else %}
+                    Wrong value in database. Must be 1,2 or 3.
+                {% endif %}
+                </td>              
+                {% for meal in meals %}
+                    {% if meal.id == planner.fkMeal.id %}
+                        <td>{{meal.mealName}}</td>
+                        <td>{{ meal.mealtype }}</td>
+                        <td>{{meal.preparationTime}}</td>
+                        
+                    {% endif %}
+                    
+                {% endfor %}
+                <td>
+                    <a class="btn btn-secondary" href="{{ path('app_meals_show', {'id': planner.fkMeal.id}) }}">show</a>
+                    <a class="btn btn-secondary" href="{{ path('app_planner_edit', {'id': planner.id}) }}">edit</a>
+                </td>
+            </tr>
+            
+            {% endif %}
+            
+            {% set lastDate = planner.date|date("Y-m-d") %}
+
+            {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        {# {% for planner in planners %}
+        {% if planner.date >= now %}
+        
+            <tr>
+                <td>{{ planner.id }}</td>
+                <td>{{ planner.timeToEat }}</td>
+                <td>{{ planner.date ? planner.date|date('Y-m-d') : '' }}</td>
+                <td>{{ planner.fkUser.email }}</td>
+                {% for user in users %}
+                    {% if user.id == planner.fkUser.id %}
+                        <td>{{user.userName}}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{ planner.fkMeal.id }}</td>
+                {% for meal in meals %}
+                    {% if meal.id == planner.fkMeal.id %}
+                        <td>{{meal.mealName}}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>
+                    <a href="{{ path('app_planner_show', {'id': planner.id}) }}">show</a>
+                    <a href="{{ path('app_planner_edit', {'id': planner.id}) }}">edit</a>
+                </td>
+            </tr>
+            {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %} #}
+        </tbody>
+    </table>
+
+    {# <a href="{{ path('app_planner_new') }}">Create new</a> #}
+    </div>
+    
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    /* table, td, tr, tbody {
+        border: none !important;
+    }
+
+    .myBorder {
+        border: 1px solid grey !important;
+    } */
+
+    /* .table-custom-color{
+        background: rgb(2,0,36)!important;
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 75%)!important; 
+    } */
+</style>
+{% endblock %}

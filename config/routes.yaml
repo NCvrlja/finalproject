@@ -1,0 +1,27 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+
+admin_user_ban:
+    path: /admin/users/{id}/ban
+    controller: App\Controller\AdminUserController::banUser
+
+admin_user_unban:
+    path: /admin/users/{id}/unban
+    controller: App\Controller\AdminUserController::unbanUser
+
+app_meals_index:
+    path: /meals
+    controller: App\Controller\MealsController::index
+
+app_meals_filtered:
+    path: /meals/filter/{status}
+    controller: App\Controller\MealsController::filtered
+
+app_meals_filter_by_meal_type:
+    path: '/filterByMealType/{mealType}'
+    controller: 'App\Controller\MealsController::filterByMealType'
+    methods: GET

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planner{% endblock %}
+
+{% block body %}
+    <h1>Planner</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ planner.id }}</td>
+            </tr>
+            <tr>
+                <th>Time_to_eat</th>
+                <td>{{ planner.timeToEat }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ planner.date ? planner.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Fk_user</th>
+                <td>{{ planner.fkUser }}</td>
+            </tr>
+            <tr>
+                <th>Fk_meal</th>
+                <td>{{ planner.fkMeal }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_planner_index') }}">back to list</a>
+
+    <a href="{{ path('app_planner_edit', {'id': planner.id}) }}">edit</a>
+
+    {{ include('planner/_delete_form.html.twig') }}
+{% endblock %}

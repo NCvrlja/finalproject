@@ -1,0 +1,103 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+{% endblock %}
+
+<nav class="navbar navbar-expand-lg navbar bg-primary" data-bs-theme="dark">
+    <div class="container-fluid ">
+      {% if is_granted("ROLE_ADMIN") %}
+      <img class="avatar" src="{{ asset('pictures/' ~ app.user.picture) }}" alt="test">
+      <div class="dropdown ms-2">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ app.user? app.user : "" }}
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="text-light nav-link active px-5 " href="/logout">Logout</a></li>  
+        </ul>
+      </div>
+      {# <a class="nav-link active text-light" aria-current="page" href="{{ path('app_user_access')}}"><h4>{{ app.user? app.user : "" }}</h4></a> #}
+      {% elseif  is_granted("ROLE_USER") %}
+      <img class="avatar" src="{{ asset('pictures/' ~ app.user.picture) }}" alt="test">
+      <div class="dropdown ms-2">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ app.user? app.user : "" }}
+        </button>
+        <ul class="dropdown-menu ">
+          <li class=""><a class="text-light nav-link active px-5 " href="/logout">Logout</a></li>  
+        </ul>
+      </div>
+        {# <a class="nav-link active text-light" aria-current="page" href="{{ path('app_user_access')}}"><h4>{{ app.user? app.user : "" }}</h4></a> #}
+
+      {% else %}
+      {% endif %}
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+          
+            {% if is_granted("ROLE_ADMIN") %}
+            <a class="nav-link active" aria-current="page" href="{{ path('app_meals_index')}}">Home
+            {% if newStuff|default(false) %}
+            <span class="position-absolute top-20 start-90 translate-middle p-2 bg-danger border border-light rounded-circle">
+              <span class="visually-hidden">New alerts</span>
+            </span>
+            {% endif %}
+            </a>
+            {% elseif  is_granted("ROLE_USER") %}
+            <a class="nav-link active" aria-current="page" href="{{ path('app_user_access')}}">Home</a>
+            {% else %}
+              
+            {% endif %}
+          </li>
+          <li class="nav-item active">
+            {% if is_granted("ROLE_ADMIN") %}
+            <a class="nav-link active" aria-current="page" href="{{ path('app_meals_new')}}">Add meal</a>
+            {%  elseif  is_granted("ROLE_USER") %}
+            <a class="nav-link active" aria-current="page" href="{{ path('app_user_access_new')}}">Add meal</a>
+            {% else %}
+            {% endif %}
+          </li>
+          <li class="nav-item active">
+            {% if is_granted("ROLE_ADMIN") %}
+            <a class="nav-link active" aria-current="page" href="{{ path('app_planner_index') }}">My Planner</a>
+            {% elseif  is_granted("ROLE_USER")%}
+            <a class="nav-link active" aria-current="page" href="{{ path('app_planner_index') }}">My Planner</a>
+            {% endif %}
+          </li>
+
+           <li class="nav-item active">
+            {% if is_granted("ROLE_ADMIN") %}
+          <a class="nav-link active" aria-current="page" href="{{ path('app_admin_user') }}">Users</a>
+            {% endif %}
+          </li>
+          
+        </ul>
+        {% if is_granted("ROLE_ADMIN") %}
+          {# <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success" type="submit">Search</button>
+          </form> #}
+        {% elseif  is_granted("ROLE_USER") %}
+          {# <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success" type="submit">Search</button>
+          </form> #}
+        {% else %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <a class="nav-link active" aria-current="page" href="{{ path('app_static')}}">Home</a>
+            </li>
+             <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{ path('app_login')}}">Login/Register</a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                {# <a class="nav-link active" aria-current="page" href="{{ path('app_register')}}">Resgister</a> #}
+              </li>
+            </div>
+          {# <div style="height: 40px;"></div> #}
+        {% endif %}
+        </form>
+      </div>
+    </div>
+  </nav>

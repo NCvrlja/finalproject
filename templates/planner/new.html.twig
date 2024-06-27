@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Planner{% endblock %}
+
+{% block body %}
+    <div class="container mb-5 mt-5 border border-3 shadow-lg p-5">
+        <h1>Add to my Planner</h1>
+
+         {{ include('planner/_form.html.twig') }}
+
+       {% if is_granted("ROLE_ADMIN") %}
+        <a class="btn btn-primary" href="{{ path('app_meals_index')}}">back to list</a>
+        {% elseif  is_granted("ROLE_USER") %}
+         <a class="btn btn-primary" href="{{ path('app_user_access')}}">back to list</a>
+        {% else %}
+          <h1>There is a problem with access control! contact tech-support...</h1>
+        {% endif %}
+    </div>
+
+    
+{% endblock %}

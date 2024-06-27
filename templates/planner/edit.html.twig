@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Planner{% endblock %}
+
+{% block body %}
+ <div class="container container mb-5 mt-5 border border-3 shadow-lg p-5">
+    <h1>Edit Planner</h1>
+
+    {{ include('planner/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a class="btn btn-primary" href="{{ path('app_planner_index') }}">back to list</a>
+
+    {{ include('planner/_delete_form.html.twig') }}
+ </div>
+    
+{% endblock %}
